@@ -1,38 +1,30 @@
-//Подключаем галп
-const gulp = require("gulp");
-//Объединение файлов
-const concat = require("gulp-concat");
-//Добапвление префиксов
-const autoprefixer = require("gulp-autoprefixer");
-//Оптимизация стилей
-const cleanCSS = require("gulp-clean-css");
-//Оптимизация скриптов
-const uglify = require("gulp-uglify");
-//Удаление файлов
-const del = require("del");
-//Синхронизация с браузером
-const browserSync = require("browser-sync").create();
-//Для препроцессоров стилей
-const sourcemaps = require("gulp-sourcemaps");
-//Sass препроцессор
-const sass = require("gulp-sass")(require("sass"));
-//Less препроцессор
-const less = require("gulp-less");
-//Stylus препроцессор
-const stylus = require("gulp-stylus");
-//Модуль для сжатия изображений
-const imagemin = require("gulp-imagemin");
-//Модуль переименовывания файлов
-const rename = require("gulp-rename");
+const gulp = require("gulp"); //Подключаем галп
+const concat = require("gulp-concat"); //Объединение файлов
+const autoprefixer = require("gulp-autoprefixer"); //Добавление префиксов
+const cleanCSS = require("gulp-clean-css"); //Оптимизация стилей
+const uglify = require("gulp-uglify"); //Оптимизация скриптов
+const del = require("del"); //Удаление файлов
+const browserSync = require("browser-sync").create(); //Синхронизация с браузером
+const sourcemaps = require("gulp-sourcemaps"); //Для препроцессоров стилей
+const sass = require("gulp-sass")(require("sass")); //Sass препроцессор
+const less = require("gulp-less"); //Less препроцессор
+const stylus = require("gulp-stylus"); //Stylus препроцессор
+const imagemin = require("gulp-imagemin"); //Модуль для сжатия изображений
+const rename = require("gulp-rename"); //Модуль переименовывания файлов
 
-//Порядок подключения файлов со стилями
-const styleFiles = ["./src/css/variables.scss", "./src/css/main.scss"];
-//Порядок подключения js файлов
-const scriptFiles = ["./src/js/main.js"];
+const styleFiles = ["./src/scss/variables.scss", "./src/scss/main.scss"]; //Порядок подключения файлов со стилями
+const scriptFiles = ["./src/js/main.js"]; //Порядок подключения js файлов
+const html = ["./index.html"];
 
-//Таск для обработки стилей
+gulp.task("html", () => {
+  return gulp
+    .src(html) // указываем исходный файл
+    .pipe(gulp.dest("build")); // указываем папку, в которую нужно скопировать файл
+});
+
+// Таск для обработки стилей
 gulp.task("styles", () => {
-  //Шаблон для поиска файлов CSS
+  //Шаблон для поиска файлов SCSS
   //Все файлы по шаблону './src/css/**/*.css'
   return (
     gulp
@@ -48,7 +40,7 @@ gulp.task("styles", () => {
           cascade: false
         })
       )
-      //Минификация CSS
+      // Минификация CSS
       .pipe(
         cleanCSS({
           level: 2
@@ -114,4 +106,4 @@ gulp.task("watch", () => {
 });
 
 //Таск по умолчанию, Запускает del, styles, scripts, img-compress и watch
-gulp.task("default", gulp.series("del", gulp.parallel("styles", "scripts", "img-compress"), "watch"));
+gulp.task("default", gulp.series("del", gulp.parallel("html", "styles", "scripts", "img-compress"), "watch"));

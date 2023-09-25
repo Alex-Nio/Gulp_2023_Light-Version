@@ -1,0 +1,37 @@
+@import "variables.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $bg-color;
+}
+
+main {
+  padding: 30px;
+}
+
+[class*="__container"] {
+  max-width: $maxWidthContainer + $containerPadding * 2;
+  margin: 0 auto;
+  padding: 0 $containerPadding;
+}
+
+[class*="__container"] {
+  // макс ширина контейнера + padding * 2
+  @media (max-width: $pc) {
+    max-width: toRem(1280);
+    padding: 0 15px;
+  }
+
+  // макс ширина контейнера + padding * 2
+  @media (max-width: $mobile) {
+    max-width: toRem(992);
+    padding: 0 16px;
+  }
+}
